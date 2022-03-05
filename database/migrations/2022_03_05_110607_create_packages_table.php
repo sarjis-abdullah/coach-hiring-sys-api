@@ -15,6 +15,16 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('description');
+            $table->decimal('price');
+            $table->date('publishDate');
+            $table->dateTime('sessionTime');
+            $table->foreignIdFor('sessionTime');
+            $table->foreignId('createdByUserId')
+                ->constrained('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
