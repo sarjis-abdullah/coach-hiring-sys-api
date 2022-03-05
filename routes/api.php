@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::resource('sport-type', \App\Http\Controllers\SportTypeController::class);
-Route::resource('package', \App\Http\Controllers\PackageController::class);
+Route::group(['middleware' => ['throttle:8,1440']], function () {
+    Route::post('sport-type', [\App\Http\Controllers\SportTypeController::class, "store"])->name('sport-type.store');
+});
+Route::apiResource('sport-type', \App\Http\Controllers\SportTypeController::class, ['except' => ['store']]);
+Route::apiResource('package', \App\Http\Controllers\PackageController::class);

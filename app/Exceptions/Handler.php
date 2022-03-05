@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -67,8 +67,6 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof NotFoundHttpException || $exception instanceof RouteNotFoundException) {
-            // log it in bugsnag
-            Bugsnag::notifyException($exception);
             return response()->json((['status' => 404, 'message' => 'The requested resource was not found.']), 404);
         }
 
@@ -80,8 +78,13 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \InvalidArgumentException) {
             return response()->json((['status' => 403, 'message' => $exception->getMessage()]),
                 403);
-        } if ($exception instanceof ValidationException) {
+        }
+        if ($exception instanceof ValidationException) {
             return response()->json((['status' => 422, 'message' => $exception->getMessage()]),
+                403);
+        }
+        if ($exception instanceof ThrottleRequestsException) {
+            return response()->json((['status' => 429, 'message' => "Limit Exceeded for today."]),
                 403);
         }
     }
