@@ -14,3 +14,5 @@ yarn-error.log
 *.xml
 .styleci.yml
 *.yml
+.idea/coach-hiring-sys-api.iml
+.editorconfig
