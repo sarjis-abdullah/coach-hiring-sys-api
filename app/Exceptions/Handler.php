@@ -2,7 +2,16 @@
 
 namespace App\Exceptions;
 
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -12,7 +21,7 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+//        ValidationException::class
     ];
 
     /**
@@ -32,6 +41,48 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        //
+
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        return $this->handleApiException($request, $exception);
+    }
+
+    private function handleApiException($request, \Exception $exception)
+    {
+        $exception = $this->prepareException($exception);
+
+        if ($exception instanceof AuthorizationException) {
+            return response()->json((['status' => 403, 'message' => 'Insufficient privileges to perform this action.']),
+                403);
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return response()->json((['status' => 405, 'message' => 'Method Not Allowed.']), 405);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            return response()->json((['status' => 404, 'message' => 'Resource not found with the specific id.']), 404);
+        }
+
+        if ($exception instanceof NotFoundHttpException || $exception instanceof RouteNotFoundException) {
+            // log it in bugsnag
+            Bugsnag::notifyException($exception);
+            return response()->json((['status' => 404, 'message' => 'The requested resource was not found.']), 404);
+        }
+
+        if ($exception instanceof AccessDeniedHttpException) {
+            return response()->json((['status' => 403, 'message' => "Access Denied."]),
+                403);
+        }
+
+        if ($exception instanceof \InvalidArgumentException) {
+            return response()->json((['status' => 403, 'message' => $exception->getMessage()]),
+                403);
+        } if ($exception instanceof ValidationException) {
+            return response()->json((['status' => 422, 'message' => $exception->getMessage()]),
+                403);
+        }
     }
 }

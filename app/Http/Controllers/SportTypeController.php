@@ -32,7 +32,7 @@ class SportTypeController extends Controller
      */
     public function index(IndexSportTypeRequest $request)
     {
-        $this->authorize('list', SportType::class);
+        $this->authorize('viewAny', SportType::class);
         $items = $this->typeRepository->findBy($request->all());
         return new SportTypeResourceCollection($items);
     }
@@ -42,9 +42,11 @@ class SportTypeController extends Controller
      *
      * @param StoreSportTypeRequest $request
      * @return SportTypeResource
+     * @throws AuthorizationException
      */
     public function store(StoreSportTypeRequest $request)
     {
+        $this->authorize('create', SportType::class);
         $item = $this->typeRepository->save($request->all());
         return new SportTypeResource($item);
     }
@@ -54,9 +56,11 @@ class SportTypeController extends Controller
      *
      * @param SportType $sportType
      * @return SportTypeResource
+     * @throws AuthorizationException
      */
     public function show(SportType $sportType)
     {
+        $this->authorize('view', SportType::class);
         $item = $this->typeRepository->findOne($sportType->id);
         return new SportTypeResource($item);
     }
@@ -70,6 +74,7 @@ class SportTypeController extends Controller
      */
     public function update(UpdateSportTypeRequest $request, SportType $sportType)
     {
+        $this->authorize('update', SportType::class);
         $item = $this->typeRepository->update($sportType, $request->all());
         return new SportTypeResource($item);
     }
@@ -79,9 +84,11 @@ class SportTypeController extends Controller
      *
      * @param SportType $sportType
      * @return void
+     * @throws AuthorizationException
      */
     public function destroy(SportType $sportType)
     {
+        $this->authorize('delete', SportType::class);
         $this->typeRepository->delete($sportType);
     }
 }
