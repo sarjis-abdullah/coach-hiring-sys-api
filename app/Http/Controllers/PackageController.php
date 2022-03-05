@@ -2,23 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexPackageRequest;
 use App\Http\Resources\PackageResource;
 use App\Http\Resources\PackageResourceCollection;
 use App\Models\Package;
 use App\Http\Requests\StorePackageRequest;
 use App\Http\Requests\UpdatePackageRequest;
+use App\Repositories\interfaces\PackageRepositoryInterface;
 use Illuminate\Http\Response;
 
 class PackageController extends Controller
 {
     /**
+     * @var PackageRepositoryInterface
+     */
+    private $packageRepository;
+
+    public function __construct(PackageRepositoryInterface $packageRepository)
+    {
+        $this->packageRepository = $packageRepository;
+    }
+
+    /**
      * Display a listing of the resource.
      *
+     * @param IndexPackageRequest $request
      * @return PackageResourceCollection
      */
-    public function index()
+    public function index(IndexPackageRequest $request)
     {
-        $items = [];
+        $items = $this->packageRepository->findBy($request->all());
         return new PackageResourceCollection($items);
     }
 
@@ -30,7 +43,7 @@ class PackageController extends Controller
      */
     public function store(StorePackageRequest $request)
     {
-        $item = [];
+        $item = $this->packageRepository->save($request->all());
         return new PackageResource($item);
     }
 
@@ -42,19 +55,21 @@ class PackageController extends Controller
      */
     public function show(Package $package)
     {
-        return new PackageResource($package);
+        $item = $this->packageRepository->findOne($package->id);
+        return new PackageResource($item);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePackageRequest  $request
+     * @param UpdatePackageRequest $request
      * @param Package $package
-     * @return Response
+     * @return PackageResource
      */
     public function update(UpdatePackageRequest $request, Package $package)
     {
-        return new PackageResource($package);
+        $item = $this->packageRepository->update($package, $request->all());
+        return new PackageResource($item);
     }
 
     /**
@@ -65,6 +80,6 @@ class PackageController extends Controller
      */
     public function destroy(Package $package)
     {
-        $package->delete();
+        $this->packageRepository->delete($package);
     }
 }

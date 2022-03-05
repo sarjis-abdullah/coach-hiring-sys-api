@@ -10,6 +10,14 @@ class SportTypePolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $currentUser)
+    {
+        if ($currentUser->hasRole('admin')) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Determine whether the user can view any models.
      *
