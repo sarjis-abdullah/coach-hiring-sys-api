@@ -49,10 +49,10 @@ class User extends Authenticatable
 
     function canCreatePackage()
     {
-        if ($this->hasRole("Coach") && $this->createdByUserPackages->count() < self::LIMIT) {
-            return false;
+        if ($this->hasRole("coach") && $this->createdByUserPackages->count() <= 8) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     public function packages() {

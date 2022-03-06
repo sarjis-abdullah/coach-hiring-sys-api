@@ -13,7 +13,7 @@ class StorePackageRequest extends BaseRequest
      */
     public function authorize()
     {
-        return $this->user()->canCreatePackage();
+        return true;
     }
 
     /**
