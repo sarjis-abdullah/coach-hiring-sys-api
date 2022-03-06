@@ -13,6 +13,7 @@ class User extends Authenticatable
 {
     use LaratrustUserTrait;
     use HasApiTokens, HasFactory, Notifiable;
+    const LIMIT = 9;
 
     /**
      * The attributes that are mass assignable.
@@ -48,7 +49,7 @@ class User extends Authenticatable
 
     function canCreatePackage()
     {
-        if ($this->hasRole("Coach") && $this->packages->count() < 9) {
+        if ($this->hasRole("Coach") && $this->packages->count() < self::LIMIT) {
             return false;
         }
         return true;

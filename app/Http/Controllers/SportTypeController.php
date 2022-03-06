@@ -71,6 +71,7 @@ class SportTypeController extends Controller
      * @param UpdateSportTypeRequest $request
      * @param SportType $sportType
      * @return SportTypeResource
+     * @throws AuthorizationException
      */
     public function update(UpdateSportTypeRequest $request, SportType $sportType)
     {
