@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 class EloquentBaseRepository implements BaseRepositoryInterface
 {
     use EloquentEagerLoadTrait;
+
     /**
      * @var Model
      */
@@ -114,12 +115,11 @@ class EloquentBaseRepository implements BaseRepositoryInterface
     {
         $fillAbleProperties = $this->model->getFillable();
         foreach ($data as $key => $value) {
-
-        // update only fillAble properties
-        if (in_array($key, $fillAbleProperties)) {
-            $this->model->$key = $value;
+            // update only fillAble properties
+            if (in_array($key, $fillAbleProperties)) {
+                $this->model->$key = $value;
+            }
         }
-    }
         return $this->model->create($data);
     }
 

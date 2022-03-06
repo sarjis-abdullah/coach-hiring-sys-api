@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePackageUserRequest extends FormRequest
+class StorePackageUserRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class StorePackageUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'packageId' => "required|exists:packages,id",
+            'userId' => "required|exists:users,id"
         ];
     }
 }

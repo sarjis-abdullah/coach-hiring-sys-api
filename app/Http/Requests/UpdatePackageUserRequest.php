@@ -24,7 +24,8 @@ class UpdatePackageUserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'packageId' => "required|exists:packages,id",
+            'userId' => "required|exists:users,id"
         ];
     }
 }

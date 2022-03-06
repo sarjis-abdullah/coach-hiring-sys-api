@@ -13,6 +13,8 @@ class PackageUser extends Model
         'userId'
     ];
 
+    protected $table = "package_user";
+
     public function user() {
         return $this->belongsTo(User::class, 'id', 'userId');
     }

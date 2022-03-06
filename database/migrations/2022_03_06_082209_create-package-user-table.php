@@ -25,8 +25,6 @@ class CreatePackageUserTable extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->timestamps();
-
-
         });
     }
 
@@ -37,6 +35,6 @@ class CreatePackageUserTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('package_user');
     }
 }
