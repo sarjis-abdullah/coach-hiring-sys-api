@@ -7,7 +7,6 @@ use App\Http\Requests\StorePackageUserRequest;
 use App\Http\Requests\UpdatePackageUserRequest;
 use App\Http\Resources\PackageUserResource;
 use App\Http\Resources\PackageUserResourceCollection;
-use App\Models\Package;
 use App\Models\PackageUser;
 use App\Repositories\interfaces\PackageUserRepositoryInterface;
 
@@ -44,8 +43,7 @@ class PackageUserController extends Controller
      */
     public function store(StorePackageUserRequest $request)
     {
-//        $item = $this->repository->save($request->all());
-        $item = PackageUser::create($request->all());
+        $item = $this->repository->save($request->all());
         return new PackageUserResource($item);
     }
 
