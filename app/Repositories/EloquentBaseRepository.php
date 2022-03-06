@@ -62,6 +62,7 @@ class EloquentBaseRepository implements BaseRepositoryInterface
 
     /**
      * @inheritdoc
+     * @throws ValidationException
      */
     public function findBy(array $searchCriteria = [])
     {

@@ -13,7 +13,7 @@ class UpdatePackageRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdatePackageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "title" => "sometimes|required",
+            "description" => "sometimes|required",
+            "price" => "sometimes|required",
+            "publishDate" => "sometimes|required|date",
+            "sessionTime" => "sometimes|required|date_format:Y-m-d H:i:s",
         ];
     }
 }

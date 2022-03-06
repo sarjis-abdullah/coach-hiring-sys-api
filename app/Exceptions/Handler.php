@@ -90,7 +90,7 @@ class Handler extends ExceptionHandler
                 403);
         }
         elseif ($exception instanceof AuthenticationException) {
-            return response()->json((['status' => 401, 'message' => "Limit Exceeded for today."]),
+            return response()->json((['status' => 401, 'message' => "Un-Authenticated."]),
                 401);
         }
         return response()->json(([
