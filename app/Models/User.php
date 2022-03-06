@@ -42,16 +42,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    function packages()
+    function createdByUserPackages()
     {
         return $this->hasMany(Package::class, 'createdByUserId');
     }
 
     function canCreatePackage()
     {
-        if ($this->hasRole("Coach") && $this->packages->count() < self::LIMIT) {
+        if ($this->hasRole("Coach") && $this->createdByUserPackages->count() < self::LIMIT) {
             return false;
         }
         return true;
+    }
+
+    public function packages() {
+        return $this->hasMany(PackageUser::class, 'userId', 'id');
     }
 }

@@ -3,12 +3,15 @@
 namespace App\Providers;
 
 use App\Models\Package;
+use App\Models\PackageUser;
 use App\Models\SportType;
 use App\Models\User;
 use App\Repositories\EloquentPackageRepository;
+use App\Repositories\EloquentPackageUserRepository;
 use App\Repositories\EloquentSportTypeRepository;
 use App\Repositories\EloquentUserRepository;
 use App\Repositories\interfaces\PackageRepositoryInterface;
+use App\Repositories\interfaces\PackageUserRepositoryInterface;
 use App\Repositories\interfaces\SportTypeRepositoryInterface;
 use App\Repositories\interfaces\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +38,11 @@ class RepositoriesServiceProvider extends ServiceProvider
         // bind UserRepository
         $this->app->bind(UserRepositoryInterface::class, function() {
             return new EloquentUserRepository(new User());
+        });
+
+        // bind PackageUserRepository
+        $this->app->bind(PackageUserRepositoryInterface::class, function() {
+            return new EloquentPackageUserRepository(new PackageUser());
         });
     }
 

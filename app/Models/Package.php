@@ -9,9 +9,21 @@ class Package extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["title", "description", "price", "publishDate", "sessionTime", "createdByUserId"];
+    protected $fillable = [
+        "title",
+        "description",
+        "price",
+        "publishDate",
+        "sessionTime",
+        "createdByUserId"
+    ];
 
     function createdByUser(){
         return $this->belongsTo(User::class, "createdByUserId");
+    }
+
+    public function packageUsers()
+    {
+        return $this->hasMany(PackageUser::class, 'packageId', 'id');
     }
 }
