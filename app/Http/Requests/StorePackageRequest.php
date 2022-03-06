@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePackageRequest extends FormRequest
+class StorePackageRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StorePackageRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->canCreatePackage();
     }
 
     /**
@@ -24,7 +24,12 @@ class StorePackageRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "title" => "required",
+            "description" => "required",
+            "price" => "required",
+            "publishDate" => "required",
+            "sessionDate" => "required",
+            "createdByUserId" => "required"
         ];
     }
 }

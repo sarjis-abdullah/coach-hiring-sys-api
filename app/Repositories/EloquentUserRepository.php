@@ -19,10 +19,7 @@ class EloquentUserRepository extends EloquentBaseRepository implements UserRepos
     {
         $data['password'] = $password = bcrypt($data['password']);
         $user = parent::save($data);
-
-//        if (!isset($data['role'])){
-//            $user->attachRole("user");
-//        }
+        $user->attachRole($data['roleId']);
         return $user;
     }
 

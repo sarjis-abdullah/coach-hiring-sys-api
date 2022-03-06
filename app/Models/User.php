@@ -40,4 +40,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function packages()
+    {
+        return $this->hasMany(Package::class, 'createdByUserId');
+    }
+
+    function canCreatePackage()
+    {
+        if ($this->hasRole("Coach") && $this->packages->count() < 9) {
+            return false;
+        }
+        return true;
+    }
 }

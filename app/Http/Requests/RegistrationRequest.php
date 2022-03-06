@@ -11,6 +11,7 @@ class RegistrationRequest extends BaseRequest
      */
     public function authorize()
     {
+
         return true;
     }
 
@@ -25,6 +26,7 @@ class RegistrationRequest extends BaseRequest
             'name'=> 'required',
             'email'=> 'required|email|unique:users',
             'password'=> 'required|string',
+            'roleId'=> 'required',
         ];
     }
 }

@@ -14,14 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:api']], function () {
+    Route::apiResource('sport-type', \App\Http\Controllers\SportTypeController::class, ['except' => ['store']]);
+    Route::apiResource('package', \App\Http\Controllers\PackageController::class);
+    Route::get('user', [\App\Http\Controllers\UserController::class, "index"])->name('user');
 });
-Route::group(['middleware' => ['throttle:10,1440']], function () {
+Route::group(['middleware' => ['auth:api', 'throttle:10,1440']], function () {
     Route::post('sport-type', [\App\Http\Controllers\SportTypeController::class, "store"])->name('sport-type.store');
 });
-Route::apiResource('sport-type', \App\Http\Controllers\SportTypeController::class, ['except' => ['store']]);
-Route::apiResource('package', \App\Http\Controllers\PackageController::class);
+
 Route::post('login', [\App\Http\Controllers\UserController::class, "login"])->name('login');
 Route::post('registration', [\App\Http\Controllers\UserController::class, "registration"])->name('registration');
-Route::get('user', [\App\Http\Controllers\UserController::class, "index"])->name('user');
+
