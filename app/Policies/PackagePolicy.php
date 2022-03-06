@@ -10,6 +10,13 @@ class PackagePolicy
 {
     use HandlesAuthorization;
 
+    public function before(User $currentUser)
+    {
+        if ($currentUser->hasRole('coach')) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Determine whether the user can view any models.
      *

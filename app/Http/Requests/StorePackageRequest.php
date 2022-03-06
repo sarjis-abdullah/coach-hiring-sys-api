@@ -27,9 +27,9 @@ class StorePackageRequest extends BaseRequest
             "title" => "required",
             "description" => "required",
             "price" => "required",
-            "publishDate" => "required",
-            "sessionDate" => "required",
-            "createdByUserId" => "required"
+            "publishDate" => "required|date",
+            "sessionTime" => "required|date_format:Y-m-d H:i:s",
+//            "createdByUserId" => "required|exists:users"
         ];
     }
 }

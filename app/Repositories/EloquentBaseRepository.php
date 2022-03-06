@@ -111,6 +111,14 @@ class EloquentBaseRepository implements BaseRepositoryInterface
      */
     public function save(array $data): \ArrayAccess
     {
+        $fillAbleProperties = $this->model->getFillable();
+        foreach ($data as $key => $value) {
+
+        // update only fillAble properties
+        if (in_array($key, $fillAbleProperties)) {
+            $this->model->$key = $value;
+        }
+    }
         return $this->model->create($data);
     }
 
