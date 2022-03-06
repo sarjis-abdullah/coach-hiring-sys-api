@@ -22,5 +22,4 @@ class PackageUser extends Model
     public function package() {
         return $this->belongsTo(Package::class, 'id', 'packageId');
     }
-
 }
