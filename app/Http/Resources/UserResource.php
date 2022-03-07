@@ -24,7 +24,7 @@ class UserResource extends Resource
                 return new RoleResourceCollection($this->roles);
             }),
             'packages' => $this->when($this->needToInclude($request, 'u.packages'), function () {
-                return new PackageResourceCollection($this->packages);
+                return new PackageUserResourceCollection($this->packages);
             }),
         ];
     }

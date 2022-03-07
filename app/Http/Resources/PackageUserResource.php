@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PackageUserResource extends JsonResource
+class PackageUserResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -19,6 +19,9 @@ class PackageUserResource extends JsonResource
         return [
             "id" => $this->id,
             "userId" => $this->userId,
+            "packageId" => $this->packageId,
+            "package" => new PackageResource($this->package),
+            "user" => new PackageResource($this->user)
         ];
     }
 }

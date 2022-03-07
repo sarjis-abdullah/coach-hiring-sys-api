@@ -27,6 +27,9 @@ class PackageResource extends Resource
             'packageUsers' => $this->when($this->needToInclude($request, 'p.pu'), function () {
                 return new PackageUserResourceCollection($this->packageUsers);
             }),
+            'users' => $this->when($this->needToInclude($request, 'p.ppp'), function () {
+                return new PackageUserResourceCollection($this->users);
+            }),
         ];
     }
 }

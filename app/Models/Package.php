@@ -26,4 +26,8 @@ class Package extends Model
     {
         return $this->hasMany(PackageUser::class, 'packageId', 'id');
     }
+    public function users()
+    {
+        return $this->hasMany(PackageUser::class, 'userId', 'id');
+    }
 }

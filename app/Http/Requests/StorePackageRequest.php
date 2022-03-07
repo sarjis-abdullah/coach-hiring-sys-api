@@ -28,7 +28,7 @@ class StorePackageRequest extends BaseRequest
             "description" => "required",
             "price" => "required",
             "publishDate" => "required|date",
-            "sessionTime" => "required|date_format:Y-m-d H:i:s",
+            "sessionTime" => "required",
         ];
     }
 }

@@ -16,10 +16,10 @@ class PackageUser extends Model
     protected $table = "package_user";
 
     public function user() {
-        return $this->belongsTo(User::class, 'id', 'userId');
+        return $this->belongsTo(User::class, 'userId', 'id');
     }
 
     public function package() {
-        return $this->belongsTo(Package::class, 'id', 'packageId');
+        return $this->belongsTo(Package::class, 'packageId', 'id');
     }
 }

@@ -19,7 +19,7 @@ class CreatePackagesTable extends Migration
             $table->text('description');
             $table->decimal('price');
             $table->date('publishDate');
-            $table->dateTime('sessionTime');
+            $table->time('sessionTime');
             $table->foreignId('createdByUserId')
                 ->constrained('users')
                 ->onUpdate('cascade')

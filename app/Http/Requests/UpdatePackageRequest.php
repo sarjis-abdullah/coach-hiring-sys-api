@@ -28,7 +28,7 @@ class UpdatePackageRequest extends FormRequest
             "description" => "sometimes|required",
             "price" => "sometimes|required",
             "publishDate" => "sometimes|required|date",
-            "sessionTime" => "sometimes|required|date_format:Y-m-d H:i:s",
+            "sessionTime" => "sometimes|required",
         ];
     }
 }

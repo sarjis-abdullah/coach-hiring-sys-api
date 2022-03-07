@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\interfaces\BaseRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
